@@ -65,7 +65,6 @@ namespace Assets.Code
             BulletsData bullets = data as BulletsData;
 
             foreach (BulletData bullet in bullets.Bullets) {
-                Debug.Log("===add bullet===" + bullet.ToString());
                 ForceSpawn(bullet.Pos, 
                            Quaternion.Euler(0, 0,bullet.Rotation), 
                            bullet.Velocity, 

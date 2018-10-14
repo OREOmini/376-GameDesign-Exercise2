@@ -91,11 +91,6 @@ namespace Assets.Code
         }
 
         #endregion
-
-        void OnGUI()
-        {
-            GUI.Label(new Rect(50, 50, 100, 20), Input.GetAxis(_fireaxis).ToString());
-        }
     }
 
     public class PlayerGameData : GameData
