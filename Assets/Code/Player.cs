@@ -50,6 +50,9 @@ namespace Assets.Code
             if (axis > 0.1f) {
                 Fire();
             }
+            //if (Input.GetButton(_fireaxis)) {
+            //    Fire();
+            //}
             
         }
 
