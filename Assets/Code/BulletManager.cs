@@ -44,8 +44,7 @@ namespace Assets.Code
             foreach (Bullet bullet in bullets) {
                 BulletData bulletData = new BulletData();
                 bulletData.Pos = bullet.GetComponent<Rigidbody2D>().position;
-                // TODO Quaternion rotation convert
-                bulletData.Rotation = 0.0f;
+                bulletData.Rotation = bullet.GetComponent<Rigidbody2D>().rotation;
                 bulletData.Velocity = bullet.GetComponent<Rigidbody2D>().velocity;
 
                 bulletsData.Bullets.Add(bulletData);
@@ -57,15 +56,21 @@ namespace Assets.Code
 
         public void OnLoad (GameData data) {
             // destroy exiting bullets
-            var list = _holder.GetComponents<Bullet>();
+            //var list = _holder.GetComponents<Bullet>();
+            var list = Object.FindObjectsOfType(typeof(Bullet));
             foreach (Bullet bullet in list) {
-                Object.Destroy(bullet);
+                //Debug.Log("destroying bullet" + bullet.GetType());
+                Object.Destroy(bullet.gameObject);
             }
 
             BulletsData bullets = data as BulletsData;
 
             foreach (BulletData bullet in bullets.Bullets) {
-                ForceSpawn(bullet.Pos, Quaternion.Euler(0, 0,bullet.Rotation), bullet.Velocity, Bullet.Lifetime);
+                Debug.Log("===add bullet===" + bullet.ToString());
+                ForceSpawn(bullet.Pos, 
+                           Quaternion.Euler(0, 0,bullet.Rotation), 
+                           bullet.Velocity, 
+                           Time.time + Bullet.Lifetime);
             }
         }
 

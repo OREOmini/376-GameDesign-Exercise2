@@ -73,12 +73,13 @@ namespace Assets.Code
         }
 
         public void OnLoad (GameData data) {
-            var list = _holder.GetComponents<Asteroid>();
+            var list = Object.FindObjectsOfType(typeof(Asteroid));
 
             // Destroy existing asteroid
             foreach (Asteroid asteroid in list) {
-                Destroy(asteroid);
+                Destroy(asteroid.gameObject);
             }
+            print("astroid count after destroying " + Object.FindObjectsOfType(typeof(Asteroid)).Length);
 
             AsteroidsData asteroidsData = data as AsteroidsData;
             foreach (AsteroidData asteroid in asteroidsData.Asteroids) {
