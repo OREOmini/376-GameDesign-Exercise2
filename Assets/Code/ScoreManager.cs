@@ -2,6 +2,8 @@
 using Assets.Code.Structure;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Assets.Code
 {
@@ -32,15 +34,16 @@ namespace Assets.Code
 
         #region saveload
         public GameData OnSave () {
-            // TODO fill me in
+            ScoreData score = new ScoreData();
 
-            throw new NotImplementedException();
+            score.Score = CurrentScore;
+
+            return score;
         }
 
         public void OnLoad (GameData data) {
-            // TODO fill me in
-
-            throw new NotImplementedException();
+            ScoreData score = data as ScoreData;
+            CurrentScore = score.Score;
         }
         #endregion
     }

@@ -1,12 +1,15 @@
 ﻿<Properties StartupConfiguration="{A785F4E7-6281-B360-BBEF-79357451AB7A}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Code/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Code/BulletManager.cs">
     <Files>
       <File FileName="Assets/Code/Platform.cs" Line="28" Column="36" />
-      <File FileName="Assets/Code/AsteroidManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Code/BulletManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Code/Player.cs" Line="70" Column="20" />
-      <File FileName="Assets/Code/ScoreManager.cs" Line="35" Column="29" />
+      <File FileName="Assets/Code/AsteroidManager.cs" Line="70" Column="59" />
+      <File FileName="Assets/Code/BulletManager.cs" Line="43" Column="42" />
+      <File FileName="Assets/Code/Player.cs" Line="94" Column="41" />
+      <File FileName="Assets/Code/Structure/Game.cs" Line="31" Column="41" />
+      <File FileName="Assets/Code/Structure/SaveLoadManager.cs" Line="24" Column="23" />
+      <File FileName="Assets/Code/Structure/Bullet.cs" Line="10" Column="21" />
+      <File FileName="Assets/Code/Asteroid.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

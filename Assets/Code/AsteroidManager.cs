@@ -47,19 +47,45 @@ namespace Assets.Code
 
         // TODO fill me in
         public void ForceSpawn (Vector2 pos, Vector2 velocity, int size, Quaternion rotation = new Quaternion()) {
-            
+            GameObject asteroidObject = Object.Instantiate(_asteroidPrefab, pos, rotation) as GameObject;
+            Asteroid asteroid = asteroidObject.GetComponent<Asteroid>();
+            asteroid.Initialize(velocity, size);
+
+            asteroid.transform.parent = _holder;
+            print("add asteroid");
         }
 
         #region saveload
 
-        // TODO fill me in
         public GameData OnSave () {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            AsteroidsData asteroidsData = new AsteroidsData();
+
+            foreach(Asteroid asteroid in _holder.GetComponents<Asteroid>()) {
+                AsteroidData asteroidData = new AsteroidData();
+                asteroidData.Size = asteroid.Size;
+                asteroidData.Pos = asteroid.GetComponent<Rigidbody2D>().position;
+                asteroidData.Velocity = 
+                    asteroid.GetComponent<Rigidbody2D>().velocity;
+
+                asteroidsData.Asteroids.Add(asteroidData);
+            }
+
+            return asteroidsData;
         }
 
-        // TODO fill me in
         public void OnLoad (GameData data) {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            var list = _holder.GetComponents<Asteroid>();
+
+            foreach (Asteroid asteroid in list) {
+                Destroy(asteroid);
+            }
+
+            AsteroidsData asteroidsData = data as AsteroidsData;
+            foreach (AsteroidData asteroid in asteroidsData.Asteroids) {
+                ForceSpawn(asteroid.Pos, asteroid.Velocity, asteroid.Size);
+            }
         }
 
         #endregion

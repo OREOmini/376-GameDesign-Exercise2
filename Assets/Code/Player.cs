@@ -35,11 +35,16 @@ namespace Assets.Code
         /// </summary>
         private void HandleInput () {
             // TODO fill me in
-            var value = Input.GetAxis(_fireaxis);
-            print(value);
-            if (value > 0) {
-                print("===");
+            var axis = Input.GetAxis(_fireaxis);
+            if (axis > 0.1f)
+            {
+                print(">");
             }
+            else if (axis < -0.1f)
+            {
+                print("<");
+            }
+            print(axis);
             
         }
 
@@ -54,33 +59,28 @@ namespace Assets.Code
         }
 
         private void Fire () {
+            print("firing");
             _gun.Fire();
         }
 
         #region saveload
 
-        // TODO fill me in
         public GameData OnSave () {
-            //throw new NotImplementedException();
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Player));
-            TextWriter textWriter = new StreamWriter("Player");
-
-            // new PlayerDameData for serializing
             PlayerGameData player = new PlayerGameData();
             player.Pos = _rb.position;
             player.Velocity = _rb.velocity;
             player.Rotation = _rb.rotation;
             player.AngularVelocity = _rb.angularVelocity;
-
-            xmlSerializer.Serialize(textWriter, player);
-            textWriter.Close();
-
+            return player;
         }
 
-        // TODO fill me in
         public void OnLoad (GameData data) {
-            throw new NotImplementedException();
+            PlayerGameData player = data as PlayerGameData;
+
+            _rb.position = player.Pos;
+            _rb.velocity = player.Velocity;
+            _rb.rotation = player.Rotation;
+            _rb.angularVelocity = player.AngularVelocity * Mathf.Deg2Rad;
         }
 
         #endregion

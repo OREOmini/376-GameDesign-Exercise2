@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Assets.Code.Structure;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Assets.Code
 {
@@ -23,21 +25,69 @@ namespace Assets.Code
             _bullet = Resources.Load("Bullet");
         }
 
-        // TODO fill me in
         public void ForceSpawn (Vector2 pos, Quaternion rotation, Vector2 velocity, float deathtime) {
-            
+            //Bullet bulletObject = new Bullet();
+            GameObject bulletObject = Object.Instantiate(_bullet, pos, rotation) as GameObject;
+            Debug.Log(bulletObject.GetComponent<Bullet>());
+
+            Bullet bullet = bulletObject.GetComponent<Bullet>();
+            bullet.Initialize(velocity, deathtime);
+
+
+            //Bullet bullet = bulletObject.GetComponent(typeof(Bullet)) as Bullet;
+
+            //bulletObject.Initialize(velocity, deathtime);
+
+            bulletObject.transform.parent = _holder;
         }
 
         #region saveload
 
-        // TODO fill me in
         public GameData OnSave () {
-            throw new NotImplementedException();
+
+            BulletsData BulletsData = new BulletsData();
+            var bullets = Object.FindObjectsOfType(typeof(Bullet));
+
+            //foreach (Bullet bullet in bullets) {
+            //    BulletData bulletData = new BulletData();
+            //    bulletData.Pos = bullet.transform.position;
+            //    // TODO Quaternion rotation convert
+            //    bulletData.Rotation = 0.0f;
+            //    bulletData.Velocity = bullet.GetComponent<Rigidbody2D>().velocity;
+
+            //    BulletsData.Bullets.Add(bulletData);
+            //}
+
+            foreach (Transform item in _holder) {
+                //Bullet b = item as Bullet;
+                BulletData bulletData = new BulletData();
+                bulletData.Pos = item.position;
+
+                // TODO Quaternion rotation convert
+                bulletData.Rotation = 0.0f;
+
+                Bullet bullet = item.GetComponent<Bullet>();
+                bulletData.Velocity = bullet.GetComponent<Rigidbody2D>().velocity;
+
+                BulletsData.Bullets.Add(bulletData);
+            }
+
+
+            return BulletsData;
         }
 
-        // TODO fill me in
+
         public void OnLoad (GameData data) {
-            throw new NotImplementedException();
+            var list = _holder.GetComponents<Bullet>();
+            foreach (Bullet bullet in list) {
+                Object.Destroy(bullet);
+            }
+
+            BulletsData bullets = data as BulletsData;
+
+            foreach (BulletData bullet in bullets.Bullets) {
+                ForceSpawn(bullet.Pos, Quaternion.Euler(0, 0,bullet.Rotation), bullet.Velocity, Bullet.Lifetime);
+            }
         }
 
         #endregion
