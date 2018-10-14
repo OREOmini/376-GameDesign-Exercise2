@@ -59,7 +59,6 @@ namespace Assets.Code
             //var list = _holder.GetComponents<Bullet>();
             var list = Object.FindObjectsOfType(typeof(Bullet));
             foreach (Bullet bullet in list) {
-                //Debug.Log("destroying bullet" + bullet.GetType());
                 Object.Destroy(bullet.gameObject);
             }
 
