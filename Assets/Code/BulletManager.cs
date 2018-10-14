@@ -26,17 +26,10 @@ namespace Assets.Code
         }
 
         public void ForceSpawn (Vector2 pos, Quaternion rotation, Vector2 velocity, float deathtime) {
-            //Bullet bulletObject = new Bullet();
             GameObject bulletObject = Object.Instantiate(_bullet, pos, rotation) as GameObject;
-            Debug.Log(bulletObject.GetComponent<Bullet>());
 
             Bullet bullet = bulletObject.GetComponent<Bullet>();
             bullet.Initialize(velocity, deathtime);
-
-
-            //Bullet bullet = bulletObject.GetComponent(typeof(Bullet)) as Bullet;
-
-            //bulletObject.Initialize(velocity, deathtime);
 
             bulletObject.transform.parent = _holder;
         }
@@ -45,39 +38,25 @@ namespace Assets.Code
 
         public GameData OnSave () {
 
-            BulletsData BulletsData = new BulletsData();
+            BulletsData bulletsData = new BulletsData();
             var bullets = Object.FindObjectsOfType(typeof(Bullet));
 
-            //foreach (Bullet bullet in bullets) {
-            //    BulletData bulletData = new BulletData();
-            //    bulletData.Pos = bullet.transform.position;
-            //    // TODO Quaternion rotation convert
-            //    bulletData.Rotation = 0.0f;
-            //    bulletData.Velocity = bullet.GetComponent<Rigidbody2D>().velocity;
-
-            //    BulletsData.Bullets.Add(bulletData);
-            //}
-
-            foreach (Transform item in _holder) {
-                //Bullet b = item as Bullet;
+            foreach (Bullet bullet in bullets) {
                 BulletData bulletData = new BulletData();
-                bulletData.Pos = item.position;
-
+                bulletData.Pos = bullet.GetComponent<Rigidbody2D>().position;
                 // TODO Quaternion rotation convert
                 bulletData.Rotation = 0.0f;
-
-                Bullet bullet = item.GetComponent<Bullet>();
                 bulletData.Velocity = bullet.GetComponent<Rigidbody2D>().velocity;
 
-                BulletsData.Bullets.Add(bulletData);
+                bulletsData.Bullets.Add(bulletData);
             }
 
-
-            return BulletsData;
+            return bulletsData;
         }
 
 
         public void OnLoad (GameData data) {
+            // destroy exiting bullets
             var list = _holder.GetComponents<Bullet>();
             foreach (Bullet bullet in list) {
                 Object.Destroy(bullet);
@@ -99,7 +78,7 @@ namespace Assets.Code
     /// </summary>
     public class BulletsData : GameData
     {
-        public List<BulletData> Bullets;
+        public List<BulletData> Bullets = new List<BulletData>();
     }
 
     /// <summary>

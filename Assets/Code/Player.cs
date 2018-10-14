@@ -34,17 +34,22 @@ namespace Assets.Code
         /// Check the controller for player inputs and respond accordingly.
         /// </summary>
         private void HandleInput () {
-            // TODO fill me in
+            var horizontalAxis = Input.GetAxis("Horizontal");
+            if (Mathf.Abs(horizontalAxis) > 0.1f) {
+                Turn(horizontalAxis);
+                print("turn");
+            }
+
+            var verticalAxis = Input.GetAxis("Vertical");
+            if (Mathf.Abs(verticalAxis) > 0.1f) {
+                Thrust(verticalAxis);
+                print("thrust");
+            }
+
             var axis = Input.GetAxis(_fireaxis);
-            if (axis > 0.1f)
-            {
-                print(">");
+            if (axis > 0.1f) {
+                Fire();
             }
-            else if (axis < -0.1f)
-            {
-                print("<");
-            }
-            print(axis);
             
         }
 
@@ -76,6 +81,8 @@ namespace Assets.Code
 
         public void OnLoad (GameData data) {
             PlayerGameData player = data as PlayerGameData;
+
+            print(player.Pos);
 
             _rb.position = player.Pos;
             _rb.velocity = player.Velocity;

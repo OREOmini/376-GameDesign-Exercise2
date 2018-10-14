@@ -37,7 +37,17 @@ namespace Assets.Code
 
         // TODO fill me in
         internal void OnCollisionEnter2D (Collision2D other) {
+            GameObject gameObject = other.gameObject;
 
+            if (gameObject.GetComponent<Bullet>() != null) {
+                print("------hit bullet");
+                HitBullet();
+            }
+            else if (gameObject.GetComponent<Player>() != null)
+            {
+                print("------hit player");
+                HitPlayer();
+            } 
         }
 
         private void HitPlayer () {

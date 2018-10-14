@@ -45,7 +45,6 @@ namespace Assets.Code
             ForceSpawn(pos, vel, size);
         }
 
-        // TODO fill me in
         public void ForceSpawn (Vector2 pos, Vector2 velocity, int size, Quaternion rotation = new Quaternion()) {
             GameObject asteroidObject = Object.Instantiate(_asteroidPrefab, pos, rotation) as GameObject;
             Asteroid asteroid = asteroidObject.GetComponent<Asteroid>();
@@ -58,10 +57,10 @@ namespace Assets.Code
         #region saveload
 
         public GameData OnSave () {
-            //throw new NotImplementedException();
             AsteroidsData asteroidsData = new AsteroidsData();
+            var asteroids = Object.FindObjectsOfType(typeof(Asteroid));
 
-            foreach(Asteroid asteroid in _holder.GetComponents<Asteroid>()) {
+            foreach (Asteroid asteroid in asteroids) {
                 AsteroidData asteroidData = new AsteroidData();
                 asteroidData.Size = asteroid.Size;
                 asteroidData.Pos = asteroid.GetComponent<Rigidbody2D>().position;
@@ -70,14 +69,13 @@ namespace Assets.Code
 
                 asteroidsData.Asteroids.Add(asteroidData);
             }
-
             return asteroidsData;
         }
 
         public void OnLoad (GameData data) {
-            //throw new NotImplementedException();
             var list = _holder.GetComponents<Asteroid>();
 
+            // Destroy existing asteroid
             foreach (Asteroid asteroid in list) {
                 Destroy(asteroid);
             }
